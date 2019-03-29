@@ -16,7 +16,8 @@ from tridesclous.waveformtools import extract_chunks
 
 # my working path
 # basedir = '/media/samuel/SamCNRS/DataSpikeSorting/pierre/zenodo/'
-basedir = '/mnt/data/sam/DataSpikeSorting/pierre_zenodo/'
+basedir = '/media/samuel/dataspikesorting/DataSpikeSortingHD2/Pierre/zenodo/'
+#basedir = '/mnt/data/sam/DataSpikeSorting/pierre_zenodo/'
 
 # input file
 recording_folder = basedir + 'rawfiles/'
