@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+import matplotlib
+matplotlib.use('Qt5Agg')
 
 import os, shutil
 import re
@@ -16,8 +17,7 @@ from tridesclous.waveformtools import extract_chunks
 
 # my working path
 # basedir = '/media/samuel/SamCNRS/DataSpikeSorting/pierre/zenodo/'
-basedir = '/media/samuel/dataspikesorting/DataSpikeSortingHD2/Pierre/zenodo/'
-#basedir = '/mnt/data/sam/DataSpikeSorting/pierre_zenodo/'
+basedir = '/mnt/data/sam/DataSpikeSorting/pierre_zenodo/'
 
 # input file
 recording_folder = basedir + 'rawfiles/'
@@ -31,7 +31,7 @@ ground_truth_folder = basedir + 'ground_truth/'
 # file_list
 
 rec_names = [ e for e in os.listdir(recording_folder) if os.path.isdir(recording_folder + e)]
-
+# rec_names = ['20160415_patch2']
 
 def detect_ground_truth_spike_on_juxta():
     """
@@ -94,26 +94,32 @@ def detect_ground_truth_spike_on_juxta():
         ax.axvline(-thresh, color='k', ls='--')
         ax.set_title('juxta peak amplitude - ' + rec_name)
         fig.savefig(gt_folder+'juxta peak amplitude.png')
+        
+
     
         # extract waveforms
         n_left, n_right = -45, 60
         waveforms = extract_chunks(mea_sigs, gt_indexes+n_left, n_right-n_left)
         wf_median, wf_mad = median_mad(waveforms, axis=0)
         
-        # get on wich channel the max is and the value
-        max_on_channel = np.argmax(np.max(np.abs(wf_median), axis=0), axis=0)
-        max_value = np.min(wf_median[:, max_on_channel])
         
+        # get on wich channel the max is and the value
+        max_on_channel = np.argmin(np.min(wf_median, axis=0), axis=0)
+
         # get the MAD (robust STD) on the mea signal
         # this estimate the SNR
         mea_median, mea_mad = median_mad(mea_sigs[:, max_on_channel] , axis=0)
-        mea_peak_snr = np.abs(max_value/mea_mad)
+        baseline = mea_median
+        
+        peak_value = np.min(wf_median[:, max_on_channel])
+        peak_value = peak_value- baseline
+        peak_snr = np.abs(peak_value/mea_mad)
         
         # evrything in Dataframe
         gt_info.at[rec_name, 'nb_spike'] = gt_indexes.size
         gt_info.at[rec_name, 'max_on_channel'] = max_on_channel
-        gt_info.at[rec_name, 'max_value'] = max_value
-        gt_info.at[rec_name, 'mea_peak_snr'] = mea_peak_snr
+        gt_info.at[rec_name, 'peak_value'] = peak_value
+        gt_info.at[rec_name, 'peak_snr'] = peak_snr
         gt_info.at[rec_name, 'noise_mad'] = mea_mad
         
         
@@ -125,6 +131,7 @@ def detect_ground_truth_spike_on_juxta():
         ax.plot(wf_median)
         ax.axvline(-n_left)
         fig.savefig(gt_folder+'GT waveforms.png')
+        
         
     gt_info.to_excel(ground_truth_folder+'gt_info.xlsx')
 
