@@ -12,7 +12,11 @@ This datasets was used by Pierre Yger publish spyking circus:
 https://elifesciences.org/articles/34518
 
 
-Here a notebook that compare some sorter on theses recording.
+Here 2 notebooks:
+  * **prepare_and_check_ground_truth.py.ipynb**: prepare files, detect juxta cellular and check validity
+  * **sorter_comparison.ipynb** : comparison of severals sorters on this datasets
+
+that compare some sorter on theses recording.
 
 Each recording have several units and **one** of theses have a ground truth recorded with juxta cellular.
 The SNR on MEA is differents on each file so we can easily compare the false positive and true positive score by sorter and SNR.

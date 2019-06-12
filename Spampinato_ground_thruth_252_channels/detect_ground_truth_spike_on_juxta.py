@@ -1,13 +1,21 @@
 # -*- coding: utf-8 -*-
+"""
+Helper script to prepare the dataset:
+  * unzip evrything
+  * run a juxta cellular detection
+  * generate figure to check manual juxta cellular quality
+
+"""
 import matplotlib
-matplotlib.use('Qt5Agg')
 
 import os, shutil
+import zipfile, tarfile
 import re
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+
 
 # this tridesclous utils are imported only for juxta detection to keep this script simple
 from tridesclous.peakdetector import  detect_peaks_in_chunk
@@ -15,10 +23,10 @@ from tridesclous.tools import median_mad
 from tridesclous.waveformtools import extract_chunks
 
 
-# my working path
-# basedir = '/media/samuel/SamCNRS/DataSpikeSorting/pierre/zenodo/'
-#~ basedir = '/mnt/data/sam/DataSpikeSorting/pierre_zenodo/'
-basedir = '/home/samuel/DataSpikeSorting/Pierre/zenodo/'
+# my working path (I have several machine)
+basedir = '/media/samuel/SamCNRS/DataSpikeSorting/pierre/zenodo/'
+# basedir = '/mnt/data/sam/DataSpikeSorting/pierre_zenodo/'
+# basedir = '/home/samuel/DataSpikeSorting/Pierre/zenodo/'
 
 # input file
 recording_folder = basedir + 'original_files/'
@@ -27,8 +35,23 @@ recording_folder = basedir + 'original_files/'
 ground_truth_folder = basedir + 'ground_truth/'
 
 # file_list
+# rec_names = [ e for e in os.listdir(recording_folder) if os.path.isdir(recording_folder + e)]
+rec_names = ['20170629_patch3', '20170728_patch2', '20170630_patch1', '20160426_patch2', '20170621_patch1',
+             '20170627_patch1', '20170706_patch3', '20170706_patch1', '20170726_patch1', '20170725_patch1',
+             '20160426_patch3', '20170622_patch1', '20170623_patch1', '20170622_patch2', '20170629_patch2',
+             '20170713_patch1', '20160415_patch2', '20170706_patch2', '20170803_patch1']
 
-rec_names = [ e for e in os.listdir(recording_folder) if os.path.isdir(recording_folder + e)]
+rec_names = ['20170706_patch2']
+
+def unzip_all():
+    # this unzip all files into recording_folder
+    for rec_name in rec_names:
+        filename = recording_folder + rec_name + '.tar.gz'
+
+        if os.path.exists(recording_folder+rec_name) and os.path.isdir(recording_folder+rec_name):
+            continue
+        t = tarfile.open(filename, mode='r|gz')
+        t.extractall(recording_folder+rec_name)
 
 
 def detect_ground_truth_spike_on_juxta():
@@ -93,11 +116,10 @@ def detect_ground_truth_spike_on_juxta():
         ax.set_title('juxta peak amplitude - ' + rec_name)
         fig.savefig(gt_folder+'juxta peak amplitude.png')
         
-        print(gt_indexes.size)
-        continue
-        # extract waveforms
+        # extract waveforms with only 150 peaks to minimize RAM
         n_left, n_right = -45, 60
-        waveforms = extract_chunks(mea_sigs, gt_indexes+n_left, n_right-n_left)
+        some_gt_indexes = np.random.choice(gt_indexes, size=150)
+        waveforms = extract_chunks(mea_sigs, some_gt_indexes+n_left, n_right-n_left)
         wf_median, wf_mad = median_mad(waveforms, axis=0)
         
         
@@ -136,4 +158,5 @@ def detect_ground_truth_spike_on_juxta():
 
 
 if __name__ == '__main__':
+    unzip_all()
     detect_ground_truth_spike_on_juxta()

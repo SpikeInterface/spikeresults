@@ -68,14 +68,6 @@ rec_names = [ '20160415_patch2', '20170803_patch1', '20170623_patch1', '20170622
 sorter_list = ['tridesclous']
 
 
-def unzip_all():
-    for rec_name in rec_names:
-        filename = recording_folder + rec_name + '.tar.gz'
-
-        if os.path.exists(recording_folder+rec_name) and os.path.isdir(recording_folder+rec_name):
-            continue
-        t = tarfile.open(filename, mode='r|gz')
-        t.extractall(recording_folder+rec_name)
 
 
 def setup_study():
