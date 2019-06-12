@@ -17,13 +17,11 @@ from tridesclous.waveformtools import extract_chunks
 
 # my working path
 # basedir = '/media/samuel/SamCNRS/DataSpikeSorting/pierre/zenodo/'
-basedir = '/mnt/data/sam/DataSpikeSorting/pierre_zenodo/'
+#~ basedir = '/mnt/data/sam/DataSpikeSorting/pierre_zenodo/'
+basedir = '/home/samuel/DataSpikeSorting/Pierre/zenodo/'
 
 # input file
-recording_folder = basedir + 'rawfiles/'
-
-# where output will be
-working_folder = basedir + 'run_comparison/'
+recording_folder = basedir + 'original_files/'
 
 # ground truth information
 ground_truth_folder = basedir + 'ground_truth/'
@@ -31,7 +29,7 @@ ground_truth_folder = basedir + 'ground_truth/'
 # file_list
 
 rec_names = [ e for e in os.listdir(recording_folder) if os.path.isdir(recording_folder + e)]
-# rec_names = ['20160415_patch2']
+
 
 def detect_ground_truth_spike_on_juxta():
     """
@@ -95,8 +93,8 @@ def detect_ground_truth_spike_on_juxta():
         ax.set_title('juxta peak amplitude - ' + rec_name)
         fig.savefig(gt_folder+'juxta peak amplitude.png')
         
-
-    
+        print(gt_indexes.size)
+        continue
         # extract waveforms
         n_left, n_right = -45, 60
         waveforms = extract_chunks(mea_sigs, gt_indexes+n_left, n_right-n_left)
