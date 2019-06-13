@@ -2,6 +2,7 @@
 import zipfile, tarfile
 import re
 import os, shutil
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -22,7 +23,7 @@ basedir = '/home/samuel/DataSpikeSorting/Pierre/zenodo/'
 recording_folder = basedir + 'original_files/'
 
 # where output will be
-study_folder = basedir + 'study_gt254/'
+study_folder = basedir + 'study_gt252/'
 
 
 # ground truth information
@@ -68,8 +69,6 @@ rec_names = [ '20160415_patch2', '20170803_patch1', '20170623_patch1', '20170622
 sorter_list = ['tridesclous']
 
 
-
-
 def setup_study():
     gt_dict = {}
     for rec_name in rec_names:
@@ -95,6 +94,7 @@ def setup_study():
         gt_indexes = np.fromfile(ground_truth_folder + rec_name + '/juxta_peak_indexes.raw', dtype='int64')
         sorting_gt = se.NumpySortingExtractor()
         sorting_gt.set_times_labels(gt_indexes, np.zeros(gt_indexes.size, dtype='int64'))
+        sorting_gt.set_sampling_frequency(20000.0)
 
         gt_dict[rec_name] = (rec, sorting_gt)
     
@@ -115,28 +115,28 @@ def collect_results():
     dataframes = aggregate_performances_table(study_folder, exhaustive_gt=True)
     
     #~ for (rec_name, sorter_name), comp in comparisons.items():
-        #~ comp = comparisons[('001_synth', 'tridesclous')]
         #~ print()
         #~ print(rec_name, sorter_name)
         #~ print(comp.count)
         #~ comp.print_summary()
+        
     
     #~ plt.subplots()
         #~ comp.plot_confusion_matrix()
     
-    dataframes['raw_counts']
+    print(dataframes.keys())
+    print(dataframes['perf_pooled_with_sum'])
     
-    plt.show()
+        #~ plt.show()
 
 
 
 if __name__ == '__main__':
-    #~ unzip_all()
     #~ setup_study()
-    run_all()
+    #~ run_all()
     
     
-    #~ collect_results()
+    collect_results()
     
     
     

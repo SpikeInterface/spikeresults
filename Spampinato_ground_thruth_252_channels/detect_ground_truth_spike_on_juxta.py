@@ -24,9 +24,9 @@ from tridesclous.waveformtools import extract_chunks
 
 
 # my working path (I have several machine)
-basedir = '/media/samuel/SamCNRS/DataSpikeSorting/pierre/zenodo/'
+#~ basedir = '/media/samuel/SamCNRS/DataSpikeSorting/pierre/zenodo/'
 # basedir = '/mnt/data/sam/DataSpikeSorting/pierre_zenodo/'
-# basedir = '/home/samuel/DataSpikeSorting/Pierre/zenodo/'
+basedir = '/home/samuel/DataSpikeSorting/Pierre/zenodo/'
 
 # input file
 recording_folder = basedir + 'original_files/'
@@ -41,7 +41,6 @@ rec_names = ['20170629_patch3', '20170728_patch2', '20170630_patch1', '20160426_
              '20160426_patch3', '20170622_patch1', '20170623_patch1', '20170622_patch2', '20170629_patch2',
              '20170713_patch1', '20160415_patch2', '20170706_patch2', '20170803_patch1']
 
-rec_names = ['20170706_patch2']
 
 def unzip_all():
     # this unzip all files into recording_folder
@@ -50,6 +49,7 @@ def unzip_all():
 
         if os.path.exists(recording_folder+rec_name) and os.path.isdir(recording_folder+rec_name):
             continue
+        print('unzip', rec_name)
         t = tarfile.open(filename, mode='r|gz')
         t.extractall(recording_folder+rec_name)
 
@@ -159,4 +159,4 @@ def detect_ground_truth_spike_on_juxta():
 
 if __name__ == '__main__':
     unzip_all()
-    detect_ground_truth_spike_on_juxta()
+    #~ detect_ground_truth_spike_on_juxta()
