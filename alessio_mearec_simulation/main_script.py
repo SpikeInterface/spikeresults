@@ -1,3 +1,4 @@
+import os
 import time
 
 import pandas as pd
@@ -10,8 +11,15 @@ from spiketoolkit.comparison import (setup_comparison_study, run_study_sorters,
             aggregate_sorting_comparison, aggregate_performances_table)
 
 
+os.environ["IRONCLUST_PATH"] = '/home/samuel/smb4k/CRNLDATA/home/samuel.garcia/Documents/ironclust/'
+os.environ["KILOSORT_PATH"] = '/home/samuel/smb4k/CRNLDATA/home/samuel.garcia/Documents/KiloSort/'
+os.environ["NPY_MATLAB_PATH"] = '/home/samuel/smb4k/CRNLDATA/home/samuel.garcia/Documents/npy-matlab/'
+os.environ["KILOSORT2_PATH"] = '/home/samuel/smb4k/CRNLDATA/home/samuel.garcia/Documents/Kilosort2/'
 
-p = '/media/samuel/SamCNRS/DataSpikeSorting/mearec/'
+
+
+#~ p = '/media/samuel/SamCNRS/DataSpikeSorting/mearec/'
+p = '/home/samuel/DataSpikeSorting/mearec/'
 
 study_folder = p + 'study_mearec'
 
@@ -33,7 +41,9 @@ def setup():
     
     
 def run():
-    sorter_list = ['tridesclous', 'herdingspikes', ]   # 'mountainsort4' 
+    #~ sorter_list = ['tridesclous', 'herdingspikes', 'klusta', 'spykingcircus']   # 'mountainsort4'  'ironclust', 'kilosort', 'kilosort2', 'spykingcircus'
+    sorter_list = ['spykingcircus' ]
+    
     run_study_sorters(study_folder, sorter_list, mode='keep', engine='loop')
 
 def collect_results():
@@ -48,7 +58,9 @@ def collect_results():
         comp.print_summary()
     
     #~ plt.subplots()
-        comp.plot_confusion_matrix()
+        fig, ax = plt.subplots()
+        comp.plot_confusion_matrix(ax=ax)
+        fig.suptitle(rec_name + '  ' + sorter_name)
     
     
     
@@ -57,7 +69,7 @@ def collect_results():
     
 if __name__ == '__main__':
     #~ setup()
-    run()
+    #~ run()
     
     collect_results()
     
