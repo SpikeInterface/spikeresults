@@ -19,7 +19,9 @@ os.environ["KILOSORT2_PATH"] = '/home/samuel/smb4k/CRNLDATA/home/samuel.garcia/D
 
 
 #~ p = '/media/samuel/SamCNRS/DataSpikeSorting/mearec/'
-p = '/home/samuel/DataSpikeSorting/mearec/'
+p = '/media/samuel/dataspikesorting/DataSpikeSortingHD2/mearec/'
+#~ p = '/home/samuel/DataSpikeSorting/mearec/'
+
 
 study_folder = p + 'study_mearec'
 
@@ -42,7 +44,7 @@ def setup():
     
 def run():
     #~ sorter_list = ['tridesclous', 'herdingspikes', 'klusta', 'spykingcircus']   # 'mountainsort4'  'ironclust', 'kilosort', 'kilosort2', 'spykingcircus'
-    sorter_list = ['spykingcircus' ]
+    sorter_list = ['tridesclous' ]
     
     run_study_sorters(study_folder, sorter_list, mode='keep', engine='loop')
 
@@ -64,6 +66,8 @@ def collect_results():
     
     
     
+    #~ dataframes['perf_by_spiketrain']
+    
     plt.show()
 
     
@@ -72,4 +76,5 @@ if __name__ == '__main__':
     #~ run()
     
     collect_results()
-    
+
+
