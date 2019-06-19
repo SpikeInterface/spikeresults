@@ -63,7 +63,7 @@ def collect_results():
         fig, ax = plt.subplots()
         comp.plot_confusion_matrix(ax=ax)
         fig.suptitle(rec_name + '  ' + sorter_name)
-    
+        plt.show()
     
     
     #~ dataframes['perf_by_spiketrain']
