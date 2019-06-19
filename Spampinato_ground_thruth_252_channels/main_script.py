@@ -40,14 +40,16 @@ ground_truth_folder = basedir + 'ground_truth/'
 
 
 def setup_study():
-    rec_names = ['20160415_patch2',
-            '20170803_patch1',
-            '20160426_patch3', 
-            '20170725_patch1',
-            '20170621_patch1',
-            '20160426_patch2', 
-            '20170728_patch2',
-            '20170713_patch1',]
+    rec_names = [
+        '20160415_patch2',
+        '20160426_patch2', 
+        '20160426_patch3', 
+        '20170621_patch1',
+        '20170713_patch1',
+        '20170725_patch1',
+        '20170728_patch2',
+        '20170803_patch1',
+    ]
     
     gt_dict = {}
     for rec_name in rec_names:
@@ -82,12 +84,12 @@ def setup_study():
 
 def run_all():
     #~ sorter_list = ['tridesclous', 'herdingspikes', 'mountainsort4' ]
-    sorter_list = ['tridesclous']
+    sorter_list = ['herdingspikes']
     run_study_sorters(study_folder, sorter_list, mode='keep', engine='loop')
     
 
 def collect_results():
-    #~ copy_sorting(study_folder)
+    copy_sorting(study_folder)
     
     comparisons = aggregate_sorting_comparison(study_folder, exhaustive_gt=False)
     dataframes = aggregate_performances_table(study_folder, exhaustive_gt=False)
@@ -111,10 +113,10 @@ def collect_results():
 
 if __name__ == '__main__':
     #~ setup_study()
-    run_all()
+    #~ run_all()
     
     
-    #~ collect_results()
+    collect_results()
     
     
 

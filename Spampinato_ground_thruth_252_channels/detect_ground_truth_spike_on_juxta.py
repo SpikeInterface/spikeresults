@@ -25,10 +25,11 @@ from tridesclous.waveformtools import extract_chunks
 
 # my working path (I have several machine)
 #~ basedir = '/media/samuel/SamCNRS/DataSpikeSorting/pierre/zenodo/'
+basedir = '/media/samuel/dataspikesorting/DataSpikeSortingHD2/Pierre/zenodo/'
 # basedir = '/mnt/data/sam/DataSpikeSorting/pierre_zenodo/'
-basedir = '/home/samuel/DataSpikeSorting/Pierre/zenodo/'
+# basedir = '/home/samuel/DataSpikeSorting/Pierre/zenodo/'
 
-# input file
+# input file : put all zip here!!!!!
 recording_folder = basedir + 'original_files/'
 
 # ground truth information
@@ -83,20 +84,21 @@ def detect_ground_truth_spike_on_juxta():
         with open(mea_filename.replace('.raw', '.txt'), mode='r') as f:
             offset = int(re.findall('padding = (\d+)', f.read())[0])
         mea_sigs = np.memmap(mea_filename, dtype='uint16', offset=offset).reshape(-1, 256)
-        
+        print(1)
         # select only the 252 mea channel (see PRB file)
         mea_sigs = mea_sigs[:, list(range(126)) + list(range(128,254))]
-        
+        print(2)
         gt_folder = ground_truth_folder + rec_name + '/'
         os.mkdir(gt_folder)
         
         # detect spikes
         med, mad = median_mad(juxta_sig)
+        print(3)
         thresh = med + 8*mad
         gt_indexes = detect_peaks_in_chunk(juxta_sig[:, None], k=10,thresh=thresh, peak_sign='-')
         gt_indexes = gt_indexes.astype('int64')
         gt_indexes.tofile(gt_folder+'juxta_peak_indexes.raw')
-        
+        print(4)
         # save some figures to for visual cheking
         sr = 20000.
         times = np.arange(juxta_sig.size) / sr
@@ -116,13 +118,15 @@ def detect_ground_truth_spike_on_juxta():
         ax.set_title('juxta peak amplitude - ' + rec_name)
         fig.savefig(gt_folder+'juxta peak amplitude.png')
         
+        print(5)
+        
         # extract waveforms with only 150 peaks to minimize RAM
         n_left, n_right = -45, 60
         some_gt_indexes = np.random.choice(gt_indexes, size=150)
         waveforms = extract_chunks(mea_sigs, some_gt_indexes+n_left, n_right-n_left)
         wf_median, wf_mad = median_mad(waveforms, axis=0)
         
-        
+        print(6)
         # get on wich channel the max is and the value
         max_on_channel = np.argmin(np.min(wf_median, axis=0), axis=0)
 
@@ -130,7 +134,7 @@ def detect_ground_truth_spike_on_juxta():
         # this estimate the SNR
         mea_median, mea_mad = median_mad(mea_sigs[:, max_on_channel] , axis=0)
         baseline = mea_median
-        
+        print(7)
         peak_value = np.min(wf_median[:, max_on_channel])
         peak_value = peak_value- baseline
         peak_snr = np.abs(peak_value/mea_mad)
@@ -151,6 +155,7 @@ def detect_ground_truth_spike_on_juxta():
         ax.plot(wf_median)
         ax.axvline(-n_left)
         fig.savefig(gt_folder+'GT waveforms.png')
+        print(8)
         
         
     gt_info.to_excel(ground_truth_folder+'gt_info.xlsx')
@@ -158,5 +163,5 @@ def detect_ground_truth_spike_on_juxta():
 
 
 if __name__ == '__main__':
-    unzip_all()
-    #~ detect_ground_truth_spike_on_juxta()
+    #~ unzip_all()
+    detect_ground_truth_spike_on_juxta()
