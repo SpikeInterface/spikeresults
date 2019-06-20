@@ -25,7 +25,8 @@ os.environ["KILOSORT2_PATH"] = '/home/samuel/smb4k/CRNLDATA/home/samuel.garcia/D
 # basedir = '/media/samuel/SamCNRS/DataSpikeSorting/pierre/zenodo/'
 #~ basedir = '/media/samuel/dataspikesorting/DataSpikeSortingHD2/Pierre/zenodo/'
 #~ basedir = '/mnt/data/sam/DataSpikeSorting/pierre_zenodo/'
-basedir = '/home/samuel/DataSpikeSorting/Pierre/zenodo/'
+#~ basedir = '/home/samuel/DataSpikeSorting/Pierre/zenodo/'
+basedir = '/media/samuel/dataspikesorting/DataSpikeSortingHD2/Pierre/zenodo/'
 
 # input file
 recording_folder = basedir + 'original_files/'
@@ -89,7 +90,7 @@ def run_all():
     
 
 def collect_results():
-    copy_sorting(study_folder)
+    #~ copy_sorting(study_folder)
     
     comparisons = aggregate_sorting_comparison(study_folder, exhaustive_gt=False)
     dataframes = aggregate_performances_table(study_folder, exhaustive_gt=False)
