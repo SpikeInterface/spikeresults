@@ -1,5 +1,7 @@
 # Ground truth recordings for validation of spike sorting algorithms
 
+@author: Samuel Garcia
+
 
 Spampinato from Institut de la Vision have publish data from mice retina recorded with from dense array.
 The data contain one ground truth to benchmark spike sorting tools.
