@@ -1,17 +1,13 @@
-# Comparison of spike sorters with mearec and spiketoolkit
+# Comparison of spike sorters with MEArec and SpikeInterface
 
 @author : Samuel Garcia
 
 
-Alessio Paolo Buccino author of [MEArec](https://github.com/alejoe91/MEArec) have generated a dataset with ground truth.
+Dataset generated with [MEArec](https://github.com/alejoe91/MEArec) (author: Alessio Paolo Buccino)
 
-The simulated probe is **SqMEA-10-15**.
+The recordings are simulated on a **SqMEA-10-15** probe, with 100 channels in a 10x10 configurtion, and with an inter-electrode distance of 15 um. There are 50 ground-truth neurons and the duration is 60 seconds.
 
-It is a very dense probe. The duration is 60s.
+The file **recordings_50cells_SqMEA-10-15um_60.0_10.0uV_27-03-2019_13_31.h5** is freely downloadable [here](10.5281/zenodo.3256070). You can download the file, unzip it in this folder, and run the notebook.
 
-The file **recordings_50cells_SqMEA-10-15um_60.0_10.0uV_27-03-2019_13_31.h5** is (will be) freely downloadable to reproduce results.
-
-This notebook is is demonstration of the spiketoolkit ground truth comparison framework.
-It launch several popular sorter on this recording and compute some performence metrics.
-
-
+This notebook is a demonstration of the SpikeInterface ground-truth comparison framework.
+The notebook launches several popular sorters on the recording and computes several performence metrics.
