@@ -14,19 +14,18 @@ import seaborn as sn
 
 import spiketoolkit as st
 import spikeextractors as se
-from spiketoolkit.comparison import (setup_comparison_study, run_study_sorters,
-            aggregate_sorting_comparison, aggregate_performances_table)
+
+from spiketoolkit.study import GroundTruthStudy
 
 
 
 
-
-#~ p = '/media/samuel/SamCNRS/DataSpikeSorting/mearec/'
+p = '/media/samuel/SamCNRS/DataSpikeSorting/mearec/'
 #~ p = '/media/samuel/dataspikesorting/DataSpikeSortingHD2/mearec/'
-p = '/home/samuel/DataSpikeSorting/mearec/'
+#~ p = '/home/samuel/DataSpikeSorting/mearec/'
 
 
-study_folder = p + 'study_mearec'
+study_folder = p + 'study_mearec_SqMEA1015um'
 
 
 def setup():
@@ -41,19 +40,26 @@ def setup():
     
     gt_dict = {'rec0' : (rec0, gt_sorting0) }
     
-    setup_comparison_study(study_folder, gt_dict)
+    study = GroundTruthStudy.setup(study_folder, gt_dict)
     
     
     
 def run():
-    #~ sorter_list = ['tridesclous', 'herdingspikes', 'klusta', 'spykingcircus']   # 'mountainsort4'  'ironclust', 'kilosort', 'kilosort2', 'spykingcircus'
-    sorter_list = ['kilosort2' ]
-    
-    run_study_sorters(study_folder, sorter_list, mode='keep', engine='loop')
+    sorter_list = ['tridesclous', 'herdingspikes', 'klusta', 'spykingcircus']   # 'mountainsort4'  'ironclust', 'kilosort', 'kilosort2', 'spykingcircus'
+    study = GroundTruthStudy(study_folder)
+    study.run_sorters(sorter_list, mode='keep', engine='loop')
+
 
 def collect_results():
-    comparisons = aggregate_sorting_comparison(study_folder, exhaustive_gt=True)
-    dataframes = aggregate_performances_table(study_folder, exhaustive_gt=True)
+    study = GroundTruthStudy(study_folder)
+    #~ study.copy_sortings()
+    
+    print(study)
+    
+    study.run_comparisons(exhaustive_gt=False)
+    
+    comparisons = study.comparisons
+    dataframes = study.aggregate_dataframes()
     
     for (rec_name, sorter_name), comp in comparisons.items():
         #~ comp = comparisons[('001_synth', 'tridesclous')]
@@ -76,8 +82,8 @@ def collect_results():
     
 if __name__ == '__main__':
     #~ setup()
-    run()
+    #~ run()
     
-    #~ collect_results()
+    collect_results()
 
 
