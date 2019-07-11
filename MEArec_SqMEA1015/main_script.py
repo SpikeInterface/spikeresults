@@ -15,19 +15,20 @@ p = './'
 study_folder = p + 'study_mearec_SqMEA1015um'
 
 # Setup study folder
-# print('Setting up study folder:', study_folder)
+#print('Setting up study folder:', study_folder)
 mearec_filename = p + 'recordings_50cells_SqMEA-10-15um_60.0_10.0uV_27-03-2019_13-31.h5'
 rec0  = se.MEArecRecordingExtractor(mearec_filename)
 gt_sorting0 = se.MEArecSortingExtractor(mearec_filename)
-# gt_dict = {'rec0': (rec0, gt_sorting0)}
-# GroundTruthStudy.setup(study_folder, gt_dict)
+#gt_dict = {'rec0': (rec0, gt_sorting0)}
+#GroundTruthStudy.setup(study_folder, gt_dict)
 
 # Run sorters
 print('Running sorters')
-sorter_list = ['herdingspikes', 'ironclust', 'kilosort2',
-               'mountainsort4', 'spykingcircus', 'tridesclous']
+sorter_list = ['mountainsort4', 'spykingcircus', 'tridesclous']
+sorter_params = {'mountainsort4': {'adjacency_radius': 50}, 
+		 'spykingcircus': {'adjacency_radius': 50}}
 study = GroundTruthStudy(study_folder)
-study.run_sorters(sorter_list, mode='keep', engine='loop')
+study.run_sorters(sorter_list, mode='keep', engine='loop', sorter_params=sorter_params, debug=True)
 
 
 # Perform comparisons
