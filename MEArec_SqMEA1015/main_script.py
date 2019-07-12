@@ -26,9 +26,11 @@ if not os.path.isdir(study_folder):
 
 # Run sorters
 print('Running sorters')
-sorter_list = ['herdingspikes', 'ironclust', 'kilosort2',
-               'mountainsort4', 'spykingcircus', 'tridesclous']
+sorter_list = ['mountainsort4', 'spykingcircus', 'tridesclous']
+sorter_params = {'mountainsort4': {'adjacency_radius': 50}, 
+		 'spykingcircus': {'adjacency_radius': 50}}
 study = GroundTruthStudy(study_folder)
+
 if not os.path.isdir(study_folder + '/sorter_folders'):
     study.run_sorters(sorter_list, mode='keep', engine='loop')
 
