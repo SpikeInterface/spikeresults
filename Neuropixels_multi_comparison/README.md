@@ -1,7 +1,6 @@
 # Comparison of spike sorters on Neuropixels recording with SpikeInterface
 
-@author : Alessio Buccino
-
+The `neuropixels-multi-comparison.ipynb` notebook reproduces the plots in Figure 3 of the [SpikeInterface paper](https://www.biorxiv.org/content/10.1101/796599v1).
 
 Dataset acquired by Andre Marques-Smith et al.<sup>1,2</sup>, downloadable from [crcns.org](http://dx.doi.org/10.6080/K0J67F4T).
 
