@@ -2,19 +2,6 @@ import spikeinterface.extractors as se
 import spikeinterface.comparison as GroundTruthStudy
 from pathlib import Path
 
-plot_mearec = False
-
-def clean_plot(ax, label, sorters):
-    ax.set_xlabel('')
-    ax.set_ylabel(label, fontsize=20)
-    ax.yaxis.set_tick_params(labelsize=12)
-    ax.set_xticklabels(sorters, fontsize=15, rotation=45, ha='center')
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    fig = ax.get_figure()
-    fig.subplots_adjust(bottom=0.2)
-    fig.set_size_inches(8, 7)
-
 p = Path('.')
 
 study_folder = p / 'study_mearec_SqMEA1015um'
